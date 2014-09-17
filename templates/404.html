@@ -1,0 +1,14 @@
+{% extends "layout.html" %}
+
+{% block title %}Page Not Found - {{ config.BLOG_TITLE }}{% endblock %}
+
+{% block sidebar %}
+    <br />
+{% endblock %}
+
+{% block content %}
+
+<h1>404 Page not found. </h1>
+<p><a class="button space-top" href="{{ url_for('index', page=pid) }}">Back to Blog</a></p>
+
+{% endblock %}
