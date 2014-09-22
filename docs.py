@@ -7,7 +7,10 @@ import string
 import urllib
 import errors
 
+import pymmh3 as mmh3
 from urlparse import urlparse
+from urlnorm import norm
+
 
 from google.appengine.ext import ndb
 from model import Link as LinkModel
@@ -150,11 +153,9 @@ class Link(BaseDocumentManager):
 
     @classmethod
     def save_link(cls, title, url, body="", tags=[], clicks=0, unread=True):
-        if not isinstance(url, str): # convert unicode to ascii for key generation purpose
-          ascii_url = url.encode('ascii', 'xmlcharrefreplace')
-        else:
-          ascii_url = url
-        key = ndb.Key(LinkModel, ascii_url)
+        url = norm(url)
+        id = mmh3.hash(url)
+        key = ndb.Key(LinkModel, id)
         domain = urlparse(url).netloc
         if len(domain)>4 and domain.startswith('www.'):
             domain = domain[4:]
