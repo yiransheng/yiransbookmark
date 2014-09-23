@@ -61,7 +61,7 @@ def search_link():
 
   ids = Link.search(query_string)
   if len(ids):
-    links = map(lambda x:L.get_by_id(x), ids)
+    links = map(lambda x:L.get_by_id(int(x)), ids)
     links = [l.to_dict() for l in links]
     return jsonify(size = len(links), data=links)
   else:
